@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bodyGradS24Black" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1F2937" />
+      <stop offset="50%" stop-color="#374151" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="screenGradS24B" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#090D16" />
+      <stop offset="100%" stop-color="#020408" />
+    </linearGradient>
+    <filter id="phoneShadowS24B" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Sharp edge Galaxy Body -->
+  <rect x="75" y="30" width="250" height="440" rx="16" fill="url(#bodyGradS24Black)" filter="url(#phoneShadowS24B)" stroke="#4B5563" stroke-width="2" />
+
+  <!-- Inner Bezel -->
+  <rect x="81" y="36" width="238" height="428" rx="12" fill="#000000" />
+
+  <!-- Screen -->
+  <rect x="85" y="40" width="230" height="420" rx="8" fill="url(#screenGradS24B)" />
+  <circle cx="200" cy="220" r="85" fill="#3B82F6" opacity="0.18" filter="blur(28px)" />
+  <circle cx="230" cy="290" r="65" fill="#10B981" opacity="0.12" filter="blur(24px)" />
+
+  <!-- Hole Punch Camera -->
+  <circle cx="200" cy="56" r="6" fill="#020617" stroke="#1E293B" stroke-width="1.5" />
+
+  <!-- Clock -->
+  <text x="200" y="140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="700" fill="#F8FAFC" text-anchor="middle">10:08</text>
+  <text x="200" y="165" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#A1A1AA" text-anchor="middle">Wednesday, March 12</text>
+
+  <!-- Badge -->
+  <rect x="110" y="260" width="180" height="34" rx="17" fill="rgba(255, 255, 255, 0.08)" stroke="rgba(255, 255, 255, 0.15)" />
+  <text x="200" y="282" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#93C5FD" text-anchor="middle">Galaxy S24 Ultra • 512GB</text>
+
+  <text x="200" y="325" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#9CA3AF" text-anchor="middle">Titanium Black • Galaxy AI</text>
+
+  <!-- Navigation bar hint -->
+  <rect x="165" y="445" width="70" height="4" rx="2" fill="#FFFFFF" opacity="0.5" />
+</svg>
