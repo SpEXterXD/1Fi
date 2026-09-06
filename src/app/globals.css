@@ -1,8 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Design tokens — light mode, matched to the 1Fi app (app.1fi.in) */
+  --bg-base: #fafafa;
+  --bg-surface: #ffffff;
+  --bg-raised: #f5f5f5;
+  --border-subtle: #e5e7eb;
+  --border-strong: #d4d4d8;
+  --text-primary: #171717;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
+  --accent: #712cdc;           /* 1Fi brand purple */
+  --accent-light: #ede8ff;
+  --accent-mid: #8c27fc;
+  --cashback: #5c22a5;         /* darker purple for cashback text */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-base: #0e0b16;
+    --bg-surface: #17131f;
+    --bg-raised: #201a2e;
+    --border-subtle: #2a2438;
+    --border-strong: #3d3550;
+    --text-primary: #eeeaf6;
+    --text-secondary: #a49dbb;
+    --text-muted: #6b6480;
+    --accent: #8f5bf0;
+    --accent-light: #2a1c4e;
+    --accent-mid: #a678f7;
+    --cashback: #c9a8ff;
+    --background: var(--bg-base);
+    --foreground: var(--text-primary);
+  }
 }
 
 @theme inline {
@@ -12,15 +44,46 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keyboard focus ring — visible, accent-colored */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* EMI card selected state — combine border + background shift + left accent bar */
+.emi-card-selected {
+  border-color: var(--accent) !important;
+  background-color: var(--accent-light) !important;
+  box-shadow: inset 3px 0 0 var(--accent), 0 0 0 1px var(--accent) !important;
+}
+
+/* Smooth skeleton pulse */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-raised) 25%,
+    var(--border-subtle) 50%,
+    var(--bg-raised) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
 }

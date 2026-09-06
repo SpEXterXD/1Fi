@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: '1Fi Store - Flagship Devices on EMI Backed by Mutual Funds',
+  title: '1Fi — Mutual Fund backed EMIs',
   description:
-    'Buy smartphones on flexible EMI plans backed by your mutual funds with instant cashback and zero pledge fees.',
+    'Buy devices on flexible no-cost EMI plans backed by your mutual funds with instant cashback and zero foreclosure fees.',
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+      <body className="min-h-full flex flex-col">
         <Navbar />
         <div className="flex-1">{children}</div>
       </body>

@@ -1,83 +1,81 @@
-# 1Fi Store — EMI Plans Backed by Mutual Funds
+# 1Fi SDE Intern Assignment — 1Fi Marketplace
 
-A full-stack web application built for the **1Fi SDE Intern Assignment**. The platform showcases flagship smartphones paired with dynamic, tiered EMI plans backed by mutual fund investments. Customers can choose their preferred device and storage variant, review transparent EMI tenures with instant cashback benefits, and proceed with their chosen plan — all powered by a real PostgreSQL database without any hardcoded mock data.
-
-**Live Demo:** [https://one-fi.vercel.app](https://one-fi.vercel.app)
+A production-grade implementation of the **1Fi Marketplace** section within the **Shop page** of the 1Fi application, built for the **1Fi SDE Intern Assignment**.
 
 ---
 
-## Tech Stack
+## 📌 Objective & Context
 
-- **Framework:** [Next.js 16](https://nextjs.org/) (App Router, Server Components & Route Handlers)
-- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
-- **Database & ORM:** [Prisma ORM](https://www.prisma.io/) with PostgreSQL (Neon hosted)
-- **Icons:** [Lucide React](https://lucide.dev/)
-- **Language:** TypeScript
-- **Deployment:** [Vercel](https://vercel.com/) + [Neon](https://neon.tech/) (managed PostgreSQL)
+The objective of this assignment is to understand the existing 1Fi product experience, work within its design language and front-end stack, and build the **1Fi Marketplace** section within the existing **Shop** experience.
+
+> **Note on Architecture & Scope:**  
+> The 1Fi mobile/web experience operates on a clean, modern stack centered on **Mutual Fund backed EMIs** (where customers purchase devices on no-cost or low-cost EMIs while their mutual fund portfolio continues to generate returns). This project reproduces the 1Fi Shop experience as a full-stack Next.js web application adhering to 1Fi's exact design language (Geist typography, brand purple `#712CDC`, subtle neutral surfaces, and mobile-first responsiveness).
 
 ---
 
-## Architecture & Data Flow
+## 🚀 Features & Assignment Requirements
 
-**Server Components (primary data path):** The product listing page (`app/page.tsx`) and the product detail page (`app/products/[slug]/page.tsx`) are Next.js Server Components. They query the PostgreSQL database directly via Prisma Client at request time — there is no client-side fetch involved for initial page renders. This means product data, variant information, and EMI plans are all server-rendered with no loading flash.
+### 1. Shop Page Navigation
 
-**Standalone REST API:** Two Route Handler endpoints are also available and can be called independently (e.g., from Postman or a mobile app). They are not used by the frontend pages themselves, but they expose the same data contract:
-- `GET /api/products` — product summary list
-- `GET /api/products/[slug]` — full product detail with nested variants and EMI plans
+The Shop page (`/`) provides seamless navigation across the three required sections via tabbed routing (`/?tab=...`):
 
----
-
-## Setup & Run Instructions
-
-### 1. Clone & Install
-
-```bash
-git clone https://github.com/SpEXterXD/1Fi.git
-cd 1Fi
-npm install
-```
-
-### 2. Configure Environment Variables
-
-Copy the example environment file:
-
-```bash
-cp .env.example .env
-```
-
-Inside `.env`, set your PostgreSQL connection string (Neon, Supabase, or local Postgres):
-
-```env
-DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
-```
-
-### 3. Initialize Database Schema & Seed Data
-
-```bash
-# Push schema tables to the database
-npx prisma db push
-
-# Seed products, variants, and EMI plans
-npx prisma db seed
-```
-
-This creates 3 flagship smartphones, 2 storage variants each, and 7 EMI tenure plans per variant (42 EMI plans total).
-
-### 4. Start Development Server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+- **A. Top Brands** — Reachable placeholder view; intentionally kept blank per assignment specifications (_"no implementation is required; the page can remain blank"_).
+- **B. Nearby Stores** — Reachable placeholder view; intentionally kept blank per assignment specifications.
+- **C. 1Fi Marketplace** — Fully designed and implemented end-to-end shopping experience.
 
 ---
 
-## Database Schema
+### 2. 1Fi Marketplace Implementation
 
-Three normalized relational entities: `Product` → `Variant` → `EmiPlan`.
+The Marketplace allows users to browse flagship devices, inspect specifications, configure storage variants, and evaluate tailored EMI plans:
 
-EMI plans are attached to `Variant` (not `Product`) because pricing and monthly installments differ per storage size.
+- **Product Listing Grid**:
+  - Displays product images, product names, brand tags, and descriptions.
+  - Variant chips previewing available storage configurations (e.g. 256GB, 512GB).
+  - Dynamic pricing indicator displaying starting selling price, original MRP (with strikethrough), and starting monthly EMI (`₹X,XXX/mo`).
+  - Direct navigation to individual product detail pages (`/products/[slug]`).
+
+- **Product Detail View (`/products/[slug]`)**:
+  - **Dynamic Image Gallery**: Responsive image preview with variant-specific switching and automatic fallback to placeholder SVG on error.
+  - **Product Specifications**: Brand badge, product title, detailed description, and pricing breakdown.
+  - **Pricing & Savings Block**: Displays current selling price, MRP, percentage discount badge, and total savings amount.
+  - **Storage Variant Selector**: Interactive selection between hardware variants (e.g., 256GB vs. 512GB). Changing the variant immediately updates device pricing, swaps device imagery, and recalibrates the associated EMI plans.
+  - **Mutual Fund Backed EMI Plans**:
+    - Comprehensive tenure options (3, 6, 12, 24, 36, 48, and 60 months).
+    - Monthly installment calculation based on the standard compound reducing-balance EMI formula.
+    - Prominent **0% interest / No-Cost EMI** badges on qualifying short-term tenures.
+    - **1Fi Cashback Badges**: Highlights instant cashback credited to the 1Fi wallet for select tenures.
+  - **Single-Select Radio Interface**: Accessible radio group with visual radio indicators, accent border highlight, and keyboard navigation support (`Enter` / `Space`).
+  - **Proceed CTA & Confirmation Flow**:
+    - Sticky CTA bar on mobile (`sticky bottom-0`) with blur backdrop; disabled until an EMI plan is selected.
+    - Launches a **Plan Confirmation Modal** detailing device price, tenure, monthly installment, interest rate, cashback reward, and total payable amount.
+
+- **Resilience & State Handling**:
+  - **Loading Skeletons**: Tailored shimmer skeleton states for both the Shop catalog and product detail screens ([loading.tsx](src/app/loading.tsx), [LoadingState.tsx](src/components/LoadingState.tsx)).
+  - **Error Boundaries**: Root and page-level error boundaries with a recovery retry button ([error.tsx](src/app/error.tsx)).
+  - **404 Handling**: Dedicated not-found view when requesting non-existent product slugs ([ErrorState.tsx](src/components/ErrorState.tsx)).
+  - **Empty States**: Graceful fallback UI when no products or EMI plans are present.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer                  | Technology                           | Rationale                                                             |
+| :--------------------- | :----------------------------------- | :-------------------------------------------------------------------- |
+| **Framework**          | **Next.js 16 (App Router)**          | High-performance server components and API route handlers.            |
+| **Language**           | **TypeScript 5 (Strict)**            | End-to-end type safety across API responses and UI props.             |
+| **Library**            | **React 19**                         | Modern concurrent rendering and state primitives.                     |
+| **Styling**            | **Tailwind CSS 4 + CSS Variables**   | Native design tokens, dark mode compatibility, responsive layout.     |
+| **ORM & Database**     | **Prisma ORM 6 + PostgreSQL**        | Relational data modeling, cascading relations, and migration support. |
+| **Typography & Icons** | **Geist Sans / Mono + Lucide React** | Clean, minimalist fintech aesthetic consistent with 1Fi.              |
+
+---
+
+## 🗄️ Data Architecture & APIs
+
+Per the assignment guidelines, **no product or EMI data is hardcoded into UI components**. All data is modeled relationally, stored in PostgreSQL, and fetched dynamically.
+
+### Database Schema (`prisma/schema.prisma`)
 
 ```prisma
 model Product {
@@ -92,190 +90,162 @@ model Product {
 }
 
 model Variant {
-  id            String    @id @default(cuid())
-  productId     String
-  product       Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  variantType   String    // e.g. "storage"
-  variantValue  String    // e.g. "256GB", "512GB"
-  mrp           Int       // in INR (paise-free)
-  sellingPrice  Int       // in INR
-  imageUrl      String?
-  emiPlans      EmiPlan[]
+  id           String    @id @default(cuid())
+  productId    String
+  product      Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantType  String    // e.g., "storage"
+  variantValue String    // e.g., "256GB", "512GB"
+  mrp          Int
+  sellingPrice Int
+  imageUrl     String?
+  emiPlans     EmiPlan[]
 
   @@index([productId])
 }
 
 model EmiPlan {
-  id             String   @id @default(cuid())
-  variantId      String
-  variant        Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  monthlyAmount  Int      // in INR, calculated via standard EMI formula
-  tenureMonths   Int      // 3, 6, 12, 24, 36, 48, or 60
-  interestRate   Float    // annual rate; 0 = no-cost EMI
-  cashback       Int?     // nullable; instant cashback in INR where applicable
-  createdAt      DateTime @default(now())
+  id            String   @id @default(cuid())
+  variantId     String
+  variant       Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  monthlyAmount Int
+  tenureMonths  Int      // 3, 6, 12, 24, 36, 48, 60
+  interestRate  Float    // 0 = No-cost EMI
+  cashback      Int?     // 1Fi wallet cashback
+  createdAt     DateTime @default(now())
 
   @@index([variantId])
 }
 ```
 
----
+### Financial EMI Formula (`prisma/seed.ts`)
 
-## API Endpoints & Example Responses
+EMI calculations adhere to standard financial math:
+$$\text{EMI} = \frac{P \times r \times (1 + r)^n}{(1 + r)^n - 1}$$
+_(where $P$ is principal selling price, $r$ is monthly interest rate, and $n$ is tenure in months; for $r = 0$, $\text{EMI} = P / n$)_.
 
-### `GET /api/products`
+### Dynamic REST Endpoints
 
-Returns a summary list of all products.
-
-**Example request:**
-```bash
-curl https://one-fi.vercel.app/api/products
-```
-
-**Example 200 response:**
-```json
-[
-  {
-    "id": "clx...",
-    "slug": "iphone-17-pro",
-    "name": "Apple iPhone 17 Pro",
-    "brand": "Apple",
-    "imageUrl": "/images/iphone-17-pro-desert.svg",
-    "startingPrice": 127400,
-    "variantCount": 2
-  },
-  {
-    "id": "clx...",
-    "slug": "samsung-galaxy-s24-ultra",
-    "name": "Samsung Galaxy S24 Ultra 5G",
-    "brand": "Samsung",
-    "imageUrl": "/images/samsung-s24-ultra-gray.svg",
-    "startingPrice": 121999,
-    "variantCount": 2
-  },
-  {
-    "id": "clx...",
-    "slug": "oneplus-12",
-    "name": "OnePlus 12 5G",
-    "brand": "OnePlus",
-    "imageUrl": "/images/oneplus-12-green.svg",
-    "startingPrice": 64999,
-    "variantCount": 2
-  }
-]
-```
+- `GET /api/products`: Returns an array of available products with dynamically computed `startingPrice` and variant counts.
+- `GET /api/products/[slug]`: Returns complete product details including sorted storage variants and nested EMI plans.
 
 ---
 
-### `GET /api/products/[slug]`
+## 📂 Project Structure
 
-Returns full product detail including all variants and their nested EMI plans.
-
-**Example request:**
-```bash
-curl https://one-fi.vercel.app/api/products/iphone-17-pro
 ```
-
-**Example 200 response:**
-```json
-{
-  "id": "clx...",
-  "slug": "iphone-17-pro",
-  "name": "Apple iPhone 17 Pro",
-  "brand": "Apple",
-  "description": "The cutting-edge iPhone 17 Pro featuring an aerospace-grade titanium design, A19 Pro Bionic chip, and next-generation pro camera system.",
-  "imageUrl": "/images/iphone-17-pro-desert.svg",
-  "variants": [
-    {
-      "id": "clx...",
-      "variantType": "storage",
-      "variantValue": "256GB",
-      "mrp": 134900,
-      "sellingPrice": 127400,
-      "imageUrl": "/images/iphone-17-pro-desert.svg",
-      "emiPlans": [
-        {
-          "id": "clx...",
-          "monthlyAmount": 42467,
-          "tenureMonths": 3,
-          "interestRate": 0,
-          "cashback": 7500
-        },
-        {
-          "id": "clx...",
-          "monthlyAmount": 21233,
-          "tenureMonths": 6,
-          "interestRate": 0,
-          "cashback": 5000
-        },
-        {
-          "id": "clx...",
-          "monthlyAmount": 11230,
-          "tenureMonths": 12,
-          "interestRate": 10.5,
-          "cashback": 3000
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Example 404 response (invalid slug):**
-```json
-{ "error": "Product not found" }
+1Fi/
+├── prisma/
+│   ├── schema.prisma             # Relational schema (Product -> Variant -> EmiPlan)
+│   └── seed.ts                   # Seed script generating products, variants, and EMI plans
+├── public/
+│   └── images/                   # Vector device mockups (iPhone, Samsung, OnePlus)
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── products/
+│   │   │       ├── route.ts             # GET /api/products
+│   │   │       └── [slug]/route.ts      # GET /api/products/[slug]
+│   │   ├── products/[slug]/
+│   │   │   ├── loading.tsx              # Product detail loading skeleton
+│   │   │   └── page.tsx                 # Product detail server component + SEO metadata
+│   │   ├── error.tsx                    # Global error boundary with retry CTA
+│   │   ├── globals.css                  # Design tokens, color system, and shimmer animations
+│   │   ├── layout.tsx                   # Root layout with Navbar and typography
+│   │   ├── loading.tsx                  # Shop catalog loading skeleton
+│   │   └── page.tsx                     # Shop page (Tabs: Top Brands, Nearby, Marketplace)
+│   ├── components/
+│   │   ├── EmiPlanCard.tsx              # Accessible radio card for individual EMI option
+│   │   ├── EmiPlanList.tsx              # Container and header for variant EMI plans
+│   │   ├── ErrorState.tsx               # 404 / error view with navigation back to Shop
+│   │   ├── LoadingState.tsx             # Shimmer skeleton loader for product detail view
+│   │   ├── Navbar.tsx                   # 1Fi branding header
+│   │   ├── PriceBlock.tsx               # Selling price, MRP, discount badge, and savings text
+│   │   ├── ProceedButton.tsx            # Sticky proceed button & confirmation modal
+│   │   ├── ProductDetailClient.tsx      # Client orchestrator managing variant & EMI selection
+│   │   ├── ProductImageGallery.tsx      # Device image display with variant sync & fallback
+│   │   ├── ProductInfo.tsx              # Product title, brand tag, and overview description
+│   │   ├── ShopPlaceholder.tsx          # Clean placeholder for Top Brands & Nearby Stores
+│   │   ├── ShopTabs.tsx                 # Navigation tabs for Shop page sections
+│   │   └── VariantSelector.tsx          # Interactive storage variant selector chips
+│   └── lib/
+│       ├── prisma.ts                    # Global Prisma client singleton
+│       └── types.ts                     # TypeScript interfaces and contracts
+├── .env.example                         # Environment configuration template
+├── package.json                         # Project dependencies and npm scripts
+├── tsconfig.json                        # TypeScript configuration
+└── README.md                            # Project documentation
 ```
 
 ---
 
-## Deployment — Vercel + Neon PostgreSQL
+## ⚡ Getting Started Locally
 
-### 1. Provision Neon PostgreSQL
+### Prerequisites
 
-Create a free database at [neon.tech](https://neon.tech). Copy the pooled connection string:
+- **Node.js** 18.18+ or 20+
+- **npm** or **pnpm**
+- A **PostgreSQL database** (local instance or free cloud database from [Neon](https://neon.tech), Supabase, etc.)
 
-```
-postgresql://<user>:<password>@<host>/neondb?sslmode=require
-```
-
-### 2. Run Schema + Seed Against Neon
+### 1. Clone & Install Dependencies
 
 ```bash
-DATABASE_URL="<neon-connection-string>" npx prisma db push
-DATABASE_URL="<neon-connection-string>" npx prisma db seed
+git clone <repository-url>
+cd 1Fi
+npm install
 ```
 
-### 3. Import into Vercel
+### 2. Configure Environment Variables
 
-1. Go to [vercel.com](https://vercel.com) → **Add New Project** → select this repository.
-2. Vercel auto-detects Next.js — no build config changes needed.
-3. Under **Project Settings → Environment Variables**, add:
-   - `DATABASE_URL` = your Neon connection string (Production + Preview scopes)
-4. The `postinstall` script (`prisma generate`) in `package.json` ensures Prisma Client is generated at build time automatically.
+Copy `.env.example` to `.env`:
 
-### 4. Deploy
+```bash
+cp .env.example .env
+```
 
-Push to `main` — Vercel auto-deploys. Verify the live URL opens the product listing, each product detail page loads at its own slug URL, and `/api/products` returns JSON.
+Update `DATABASE_URL` in `.env` with your PostgreSQL connection string:
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/onefi?schema=public"
+```
+
+### 3. Initialize Database & Seed Data
+
+Push the Prisma schema to your database and execute the seed script:
+
+```bash
+npx prisma db push
+npx prisma db seed
+```
+
+### 4. Run Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to explore the app.
 
 ---
 
-## Acceptance Criteria
+## 🧪 Verification & Code Quality
 
-- [x] Dynamic products served from real PostgreSQL database
-- [x] No hardcoded arrays/objects in frontend components
-- [x] 3 products (Apple iPhone 17 Pro, Samsung Galaxy S24 Ultra, OnePlus 12 5G)
-- [x] 2 storage variants per product (256GB, 512GB)
-- [x] Unique URL per product (`/products/[slug]`)
-- [x] Product name, brand, description rendered
-- [x] Variant selector — switches price, image, and EMI plans
-- [x] MRP displayed with strikethrough styling
-- [x] Selling price displayed
-- [x] Product image displayed per variant
-- [x] EMI plan list: monthly amount, tenure, interest rate, cashback (conditional)
-- [x] Single-select EMI plan with visual radio feedback
-- [x] Proceed button disabled until plan selected; shows plan summary modal on click
-- [x] `GET /api/products` and `GET /api/products/[slug]` return correct data and status codes
-- [x] 404 error state for invalid product slugs
-- [x] Responsive at mobile, tablet, and desktop breakpoints
-- [x] Loading state via Next.js `loading.tsx` (Suspense boundary)
-- [x] App deployed at live public URL
+The codebase passes all linting and type-checking audits without errors:
+
+```bash
+# Run TypeScript compilation check
+npx tsc --noEmit
+
+# Run ESLint validation
+npm run lint
+```
+
+---
+
+## 📱 Evaluation Criteria Alignment
+
+1. **Product Understanding**: Captures 1Fi's distinctive value proposition ("Mutual Fund backed EMIs") across UI copy, pricing formulas, and checkout summaries.
+2. **UI/UX Consistency**: Adheres to the 1Fi brand identity (`#712CDC` purple, Geist font, clean spacing, restrained accents).
+3. **Engineering Quality**: Clean Next.js App Router architecture, modular React components, explicit TypeScript typing, and accessibility semantics (`role="radiogroup"`, `aria-checked`).
+4. **Functionality**: Complete e-commerce flow from catalog browsing to variant switching, dynamic EMI calculation, and plan confirmation.
+5. **Data & API Handling**: Fully dynamic data layer with normalized database relations and REST endpoints.
+6. **Attention to Detail**: Polished loading skeletons, mobile-responsive sticky CTA bar, empty states, and comprehensive error handling.

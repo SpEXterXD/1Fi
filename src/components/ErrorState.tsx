@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { AlertCircle, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 interface ErrorStateProps {
   title?: string;
@@ -8,25 +8,35 @@ interface ErrorStateProps {
 }
 
 export default function ErrorState({
-  title = 'Product Not Found',
-  message = "The requested product or plan could not be found. It may have been removed or the URL is invalid.",
+  title = 'Product not found',
+  message = 'The requested product could not be found. It may have been removed or the URL is incorrect.',
   statusCode = 404,
 }: ErrorStateProps) {
   return (
-    <div className="min-h-[65vh] flex items-center justify-center px-4 py-16">
-      <div className="max-w-md w-full text-center space-y-6">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">
-          <AlertCircle className="w-8 h-8" />
-        </div>
+    <div
+      className="min-h-[60vh] flex items-center justify-center px-4 py-16"
+      style={{ color: 'var(--text-primary)' }}
+    >
+      <div className="max-w-sm w-full text-center flex flex-col gap-4">
+        {/* Status code — large typographic display, no icon */}
+        <p
+          className="text-7xl font-black tabular-nums leading-none"
+          style={{ color: 'var(--border-strong)' }}
+        >
+          {statusCode}
+        </p>
 
-        <div className="space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-            Error {statusCode}
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+        <div className="flex flex-col gap-1">
+          <h2
+            className="text-xl font-bold"
+            style={{ color: 'var(--text-primary)' }}
+          >
             {title}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+          <p
+            className="text-sm leading-relaxed"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             {message}
           </p>
         </div>
@@ -34,10 +44,11 @@ export default function ErrorState({
         <div className="pt-2">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold text-sm hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-opacity hover:opacity-90"
+            style={{ background: 'var(--accent)', color: '#ffffff' }}
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Products</span>
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+            Back to Shop
           </Link>
         </div>
       </div>

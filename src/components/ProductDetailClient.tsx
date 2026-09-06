@@ -9,142 +9,93 @@ import PriceBlock from './PriceBlock';
 import EmiPlanList from './EmiPlanList';
 import ProceedButton from './ProceedButton';
 import Link from 'next/link';
-import { ChevronLeft, ShieldCheck, Sparkles, Zap } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 
 interface ProductDetailClientProps {
   product: ProductDetail;
 }
 
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
-  // Default to first variant
   const [selectedVariantId, setSelectedVariantId] = useState<string>(
     product.variants[0]?.id || ''
   );
-
-  // Default to no selected plan (or null), user must select
   const [selectedEmiPlanId, setSelectedEmiPlanId] = useState<string | null>(null);
 
   const activeVariant =
-    product.variants.find((v) => v.id === selectedVariantId) ||
-    product.variants[0];
+    product.variants.find((v) => v.id === selectedVariantId) || product.variants[0];
 
   const activeEmiPlan =
     activeVariant?.emiPlans.find((p) => p.id === selectedEmiPlanId) || null;
 
-  // Handle variant switch - resets EMI plan per requirements
   const handleVariantChange = (variantId: string) => {
     setSelectedVariantId(variantId);
     setSelectedEmiPlanId(null);
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20">
-      {/* Breadcrumb Bar */}
-      <div className="border-b border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/60">
+    <div
+      className="min-h-screen pb-24"
+      style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}
+    >
+      {/* Breadcrumb */}
+      <div
+        className="border-b"
+        style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-surface)' }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors"
+            className="inline-flex items-center gap-1 text-xs font-medium transition-colors"
+            style={{ color: 'var(--text-muted)' }}
           >
-            <ChevronLeft className="w-4 h-4" />
-            <span>All Flagship Smartphones</span>
+            <ChevronLeft className="w-3.5 h-3.5" aria-hidden="true" />
+            Shop
           </Link>
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Left Column: Product Gallery + Info + Variant Selector + Price */}
-          <div className="lg:col-span-6 flex flex-col space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+
+          {/* Left column: image + product details */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
             <ProductImageGallery
               imageUrl={activeVariant?.imageUrl || product.imageUrl}
               productName={product.name}
               variantValue={activeVariant?.variantValue || ''}
             />
 
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
+            {/* Product info block — no card wrapper, just vertical stack */}
+            <div className="flex flex-col gap-5">
               <ProductInfo
                 name={product.name}
                 brand={product.brand}
                 description={product.description}
               />
-
               <PriceBlock
                 mrp={activeVariant?.mrp || 0}
                 sellingPrice={activeVariant?.sellingPrice || 0}
               />
-
               <VariantSelector
                 variants={product.variants}
                 selectedVariantId={selectedVariantId}
                 onSelect={handleVariantChange}
               />
-
-              {/* Highlights pills — derived from actual EMI plan data for this variant */}
-              {activeVariant && activeVariant.emiPlans.length > 0 && (() => {
-                const zeroIntPlans = activeVariant.emiPlans.filter(p => p.interestRate === 0);
-                const zeroIntTenures = zeroIntPlans.map(p => `${p.tenureMonths}M`).join(' & ');
-                const maxCashback = Math.max(
-                  0,
-                  ...activeVariant.emiPlans
-                    .map(p => p.cashback ?? 0)
-                );
-                const formatRupees = (n: number) =>
-                  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
-                return (
-                  <div className="grid grid-cols-3 gap-2 pt-2 text-center">
-                    {zeroIntPlans.length > 0 && (
-                      <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                        <Zap className="w-4 h-4 mx-auto text-emerald-600 dark:text-emerald-400 mb-1" />
-                        <span className="text-[11px] font-bold block text-slate-800 dark:text-slate-200">
-                          0% Interest
-                        </span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                          {zeroIntTenures} Months
-                        </span>
-                      </div>
-                    )}
-                    {maxCashback > 0 && (
-                      <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                        <Sparkles className="w-4 h-4 mx-auto text-teal-600 dark:text-teal-400 mb-1" />
-                        <span className="text-[11px] font-bold block text-slate-800 dark:text-slate-200">
-                          Up to {formatRupees(maxCashback)}
-                        </span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                          Instant Cashback
-                        </span>
-                      </div>
-                    )}
-                    <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                      <ShieldCheck className="w-4 h-4 mx-auto text-emerald-600 dark:text-emerald-400 mb-1" />
-                      <span className="text-[11px] font-bold block text-slate-800 dark:text-slate-200">
-                        Mutual Fund
-                      </span>
-                      <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                        Backed Security
-                      </span>
-                    </div>
-                  </div>
-                );
-              })()}
             </div>
           </div>
 
-          {/* Right Column: EMI Plans List + Proceed CTA */}
-          <div className="lg:col-span-6 flex flex-col space-y-6">
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
-              <EmiPlanList
-                plans={activeVariant?.emiPlans || []}
-                selectedPlanId={selectedEmiPlanId}
-                onSelectPlan={(planId) => setSelectedEmiPlanId(planId)}
-              />
-
-              <ProceedButton
-                selectedPlan={activeEmiPlan}
-                productName={product.name}
-                selectedVariant={activeVariant}
-              />
-            </div>
+          {/* Right column: EMI plans + CTA */}
+          <div className="lg:col-span-7 flex flex-col gap-4">
+            <EmiPlanList
+              plans={activeVariant?.emiPlans || []}
+              selectedPlanId={selectedEmiPlanId}
+              onSelectPlan={(planId) => setSelectedEmiPlanId(planId)}
+            />
+            <ProceedButton
+              selectedPlan={activeEmiPlan}
+              productName={product.name}
+              selectedVariant={activeVariant}
+            />
           </div>
         </div>
       </main>

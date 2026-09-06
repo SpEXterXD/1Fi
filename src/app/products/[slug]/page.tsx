@@ -20,16 +20,16 @@ export async function generateMetadata({
 
   if (!product) {
     return {
-      title: 'Product Not Found - 1Fi Store',
+      title: 'Product Not Found - 1Fi',
       description: 'The requested product could not be found.',
     };
   }
 
   return {
-    title: `${product.name} - EMI Plans backed by Mutual Funds | 1Fi Store`,
+    title: `${product.name} - EMI Plans backed by Mutual Funds | 1Fi`,
     description:
       product.description ||
-      `Buy ${product.name} on EMI plans backed by mutual funds with instant cashback and zero pledge fees.`,
+      `Buy ${product.name} on EMI plans backed by mutual funds with instant cashback and zero foreclosure fees.`,
   };
 }
 
