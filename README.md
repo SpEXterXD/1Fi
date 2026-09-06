@@ -4,76 +4,76 @@ A production-grade implementation of the **1Fi Marketplace** section within the 
 
 ---
 
-## 📌 Objective & Context
+## Objective and Context
 
-The objective of this assignment is to understand the existing 1Fi product experience, work within its design language and front-end stack, and build the **1Fi Marketplace** section within the existing **Shop** experience.
+The objective of this assignment is to evaluate the ability to understand the existing 1Fi product experience, work within its design system and front-end stack, and build the **1Fi Marketplace** section within the existing **Shop** experience.
 
-> **Note on Architecture & Scope:**  
-> The 1Fi mobile/web experience operates on a clean, modern stack centered on **Mutual Fund backed EMIs** (where customers purchase devices on no-cost or low-cost EMIs while their mutual fund portfolio continues to generate returns). This project reproduces the 1Fi Shop experience as a full-stack Next.js web application adhering to 1Fi's exact design language (Geist typography, brand purple `#712CDC`, subtle neutral surfaces, and mobile-first responsiveness).
+> **Architecture and Scope:**  
+> The 1Fi mobile and web experience operates on a stack centered on **Mutual Fund backed EMIs** (enabling users to purchase devices on no-cost or low-cost EMIs while their mutual fund investments continue to earn compounding returns). This project reproduces the 1Fi Shop experience as a full-stack Next.js web application adhering to 1Fi's design language (Geist typography, brand purple `#712CDC`, neutral surfaces, and mobile-first responsiveness).
 
 ---
 
-## 🚀 Features & Assignment Requirements
+## Features and Requirements
 
 ### 1. Shop Page Navigation
 
-The Shop page (`/`) provides seamless navigation across the three required sections via tabbed routing (`/?tab=...`):
+The Shop page (`/`) provides navigation across the three required sections via query-based tab routing (`/?tab=...`):
 
-- **A. Top Brands** — Reachable placeholder view; intentionally kept blank per assignment specifications (_"no implementation is required; the page can remain blank"_).
-- **B. Nearby Stores** — Reachable placeholder view; intentionally kept blank per assignment specifications.
-- **C. 1Fi Marketplace** — Fully designed and implemented end-to-end shopping experience.
+- **A. Top Brands**: Reachable placeholder view; left blank per assignment specifications (*"no implementation is required; the page can remain blank"*).
+- **B. Nearby Stores**: Reachable placeholder view; left blank per assignment specifications.
+- **C. 1Fi Marketplace**: Fully designed and implemented end-to-end shopping experience.
 
 ---
 
 ### 2. 1Fi Marketplace Implementation
 
-The Marketplace allows users to browse flagship devices, inspect specifications, configure storage variants, and evaluate tailored EMI plans:
+The Marketplace allows users to browse flagship devices, inspect specifications, configure hardware variants, and evaluate tailored EMI options:
 
 - **Product Listing Grid**:
-  - Displays product images, product names, brand tags, and descriptions.
-  - Variant chips previewing available storage configurations (e.g. 256GB, 512GB).
-  - Dynamic pricing indicator displaying starting selling price, original MRP (with strikethrough), and starting monthly EMI (`₹X,XXX/mo`).
+  - Displays device images, product names, brand tags, and overview descriptions.
+  - Variant tags previewing available hardware configurations (e.g., 256GB, 512GB).
+  - Dynamic pricing indicator showing lowest selling price, original MRP (with strikethrough), and starting monthly installment (`₹X,XXX/mo`).
   - Direct navigation to individual product detail pages (`/products/[slug]`).
 
 - **Product Detail View (`/products/[slug]`)**:
-  - **Dynamic Image Gallery**: Responsive image preview with variant-specific switching and automatic fallback to placeholder SVG on error.
+  - **Dynamic Image Gallery**: Responsive image display with variant-specific switching and fallback to placeholder SVG on image failure.
   - **Product Specifications**: Brand badge, product title, detailed description, and pricing breakdown.
-  - **Pricing & Savings Block**: Displays current selling price, MRP, percentage discount badge, and total savings amount.
-  - **Storage Variant Selector**: Interactive selection between hardware variants (e.g., 256GB vs. 512GB). Changing the variant immediately updates device pricing, swaps device imagery, and recalibrates the associated EMI plans.
+  - **Pricing and Savings Block**: Displays selling price, MRP, percentage discount badge, and total savings amount.
+  - **Storage Variant Selector**: Interactive selection between hardware storage options. Switching variants immediately updates device pricing, swaps device imagery, and recalibrates associated EMI plans.
   - **Mutual Fund Backed EMI Plans**:
     - Comprehensive tenure options (3, 6, 12, 24, 36, 48, and 60 months).
     - Monthly installment calculation based on the standard compound reducing-balance EMI formula.
     - Prominent **0% interest / No-Cost EMI** badges on qualifying short-term tenures.
     - **1Fi Cashback Badges**: Highlights instant cashback credited to the 1Fi wallet for select tenures.
-  - **Single-Select Radio Interface**: Accessible radio group with visual radio indicators, accent border highlight, and keyboard navigation support (`Enter` / `Space`).
-  - **Proceed CTA & Confirmation Flow**:
-    - Sticky CTA bar on mobile (`sticky bottom-0`) with blur backdrop; disabled until an EMI plan is selected.
-    - Launches a **Plan Confirmation Modal** detailing device price, tenure, monthly installment, interest rate, cashback reward, and total payable amount.
+  - **Single-Select Radio Interface**: Accessible radio group with visual indicators, accent highlights, and full keyboard navigation support (`Enter` / `Space`).
+  - **Proceed CTA and Confirmation Flow**:
+    - Sticky CTA bar on mobile (`sticky bottom-0`) with backdrop blur; disabled until an EMI plan is selected.
+    - Launches a modal summarizing device price, tenure, monthly installment, interest rate, cashback reward, and total payable amount.
 
-- **Resilience & State Handling**:
-  - **Loading Skeletons**: Tailored shimmer skeleton states for both the Shop catalog and product detail screens ([loading.tsx](src/app/loading.tsx), [LoadingState.tsx](src/components/LoadingState.tsx)).
-  - **Error Boundaries**: Root and page-level error boundaries with a recovery retry button ([error.tsx](src/app/error.tsx)).
-  - **404 Handling**: Dedicated not-found view when requesting non-existent product slugs ([ErrorState.tsx](src/components/ErrorState.tsx)).
-  - **Empty States**: Graceful fallback UI when no products or EMI plans are present.
-
----
-
-## 🛠️ Technology Stack
-
-| Layer                  | Technology                           | Rationale                                                             |
-| :--------------------- | :----------------------------------- | :-------------------------------------------------------------------- |
-| **Framework**          | **Next.js 16 (App Router)**          | High-performance server components and API route handlers.            |
-| **Language**           | **TypeScript 5 (Strict)**            | End-to-end type safety across API responses and UI props.             |
-| **Library**            | **React 19**                         | Modern concurrent rendering and state primitives.                     |
-| **Styling**            | **Tailwind CSS 4 + CSS Variables**   | Native design tokens, dark mode compatibility, responsive layout.     |
-| **ORM & Database**     | **Prisma ORM 6 + PostgreSQL**        | Relational data modeling, cascading relations, and migration support. |
-| **Typography & Icons** | **Geist Sans / Mono + Lucide React** | Clean, minimalist fintech aesthetic consistent with 1Fi.              |
+- **Resilience and State Handling**:
+  - **Loading Skeletons**: Shimmer skeleton states matching layout dimensions for both catalog and detail pages ([loading.tsx](src/app/loading.tsx), [LoadingState.tsx](src/components/LoadingState.tsx)).
+  - **Error Boundaries**: Root and page-level error boundaries with a recovery retry action ([error.tsx](src/app/error.tsx)).
+  - **404 Handling**: Dedicated not-found view when requesting invalid product slugs ([ErrorState.tsx](src/components/ErrorState.tsx)).
+  - **Empty States**: Fallback UI when no products or EMI plans are available.
 
 ---
 
-## 🗄️ Data Architecture & APIs
+## Technology Stack
 
-Per the assignment guidelines, **no product or EMI data is hardcoded into UI components**. All data is modeled relationally, stored in PostgreSQL, and fetched dynamically.
+| Layer | Technology | Rationale |
+| :--- | :--- | :--- |
+| **Framework** | **Next.js 16 (App Router)** | High-performance server components and API route handlers. |
+| **Language** | **TypeScript 5 (Strict)** | End-to-end type safety across API responses and UI props. |
+| **Library** | **React 19** | Modern concurrent rendering and state primitives. |
+| **Styling** | **Tailwind CSS 4 + CSS Variables** | Native design tokens, dark mode compatibility, responsive layout. |
+| **ORM and Database** | **Prisma ORM 6 + PostgreSQL** | Relational data modeling, cascading relations, and migration support. |
+| **Typography and Icons** | **Geist Sans / Mono + Lucide React** | Clean, minimalist fintech aesthetic consistent with 1Fi. |
+
+---
+
+## Data Architecture and APIs
+
+Per the assignment guidelines, product and EMI information is not hardcoded into UI components. All data is structured relationally, stored in PostgreSQL, and fetched dynamically.
 
 ### Database Schema (`prisma/schema.prisma`)
 
@@ -119,18 +119,20 @@ model EmiPlan {
 
 ### Financial EMI Formula (`prisma/seed.ts`)
 
-EMI calculations adhere to standard financial math:
-$$\text{EMI} = \frac{P \times r \times (1 + r)^n}{(1 + r)^n - 1}$$
-_(where $P$ is principal selling price, $r$ is monthly interest rate, and $n$ is tenure in months; for $r = 0$, $\text{EMI} = P / n$)_.
+EMI calculations adhere to the standard reducing-balance formula:
 
-### Dynamic REST Endpoints
+$$\text{EMI} = \frac{P \times r \times (1 + r)^n}{(1 + r)^n - 1}$$
+
+*(where $P$ is principal selling price, $r$ is monthly interest rate, and $n$ is tenure in months; for $r = 0$, $\text{EMI} = P / n$)*.
+
+### REST Endpoints
 
 - `GET /api/products`: Returns an array of available products with dynamically computed `startingPrice` and variant counts.
-- `GET /api/products/[slug]`: Returns complete product details including sorted storage variants and nested EMI plans.
+- `GET /api/products/[slug]`: Returns full product details including sorted storage variants and nested EMI plans.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 1Fi/
@@ -178,15 +180,15 @@ _(where $P$ is principal selling price, $r$ is monthly interest rate, and $n$ is
 
 ---
 
-## ⚡ Getting Started Locally
+## Getting Started
 
 ### Prerequisites
 
 - **Node.js** 18.18+ or 20+
 - **npm** or **pnpm**
-- A **PostgreSQL database** (local instance or free cloud database from [Neon](https://neon.tech), Supabase, etc.)
+- A **PostgreSQL database** (local instance or cloud database such as Neon or Supabase)
 
-### 1. Clone & Install Dependencies
+### 1. Clone and Install Dependencies
 
 ```bash
 git clone <repository-url>
@@ -208,7 +210,7 @@ Update `DATABASE_URL` in `.env` with your PostgreSQL connection string:
 DATABASE_URL="postgresql://username:password@localhost:5432/onefi?schema=public"
 ```
 
-### 3. Initialize Database & Seed Data
+### 3. Initialize Database and Seed Data
 
 Push the Prisma schema to your database and execute the seed script:
 
@@ -223,13 +225,13 @@ npx prisma db seed
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to explore the app.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
 ---
 
-## 🧪 Verification & Code Quality
+## Verification and Code Quality
 
-The codebase passes all linting and type-checking audits without errors:
+The codebase passes all linting and type-checking audits:
 
 ```bash
 # Run TypeScript compilation check
@@ -238,14 +240,3 @@ npx tsc --noEmit
 # Run ESLint validation
 npm run lint
 ```
-
----
-
-## 📱 Evaluation Criteria Alignment
-
-1. **Product Understanding**: Captures 1Fi's distinctive value proposition ("Mutual Fund backed EMIs") across UI copy, pricing formulas, and checkout summaries.
-2. **UI/UX Consistency**: Adheres to the 1Fi brand identity (`#712CDC` purple, Geist font, clean spacing, restrained accents).
-3. **Engineering Quality**: Clean Next.js App Router architecture, modular React components, explicit TypeScript typing, and accessibility semantics (`role="radiogroup"`, `aria-checked`).
-4. **Functionality**: Complete e-commerce flow from catalog browsing to variant switching, dynamic EMI calculation, and plan confirmation.
-5. **Data & API Handling**: Fully dynamic data layer with normalized database relations and REST endpoints.
-6. **Attention to Detail**: Polished loading skeletons, mobile-responsive sticky CTA bar, empty states, and comprehensive error handling.
