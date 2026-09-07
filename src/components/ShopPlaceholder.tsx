@@ -35,9 +35,9 @@ export default function ShopPlaceholder({ icon, title, message }: ShopPlaceholde
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
         <div>
-          <h2 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
+          <h1 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
             {title}
-          </h2>
+          </h1>
           <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>
             {message}
           </p>

@@ -14,6 +14,7 @@ export default function Navbar() {
           <div
             className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-black tracking-tighter text-white"
             style={{ background: "var(--accent)" }}
+            translate="no"
           >
             1Fi
           </div>

@@ -31,14 +31,13 @@ export default function ShopError({
             Something went wrong
           </h2>
           <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            We couldn&apos;t load the Shop right now. Please try again.
+            We couldn’t load the Shop right now. Please try again.
           </p>
         </div>
         <button
           type="button"
           onClick={reset}
-          className="mt-2 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90"
-          style={{ background: "var(--accent)", color: "#ffffff" }}
+          className="btn-accent mt-2 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold"
         >
           <RotateCcw className="h-4 w-4" aria-hidden="true" />
           Try again

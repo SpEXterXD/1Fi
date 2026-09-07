@@ -40,7 +40,7 @@ export default function VariantSelector({
               type="button"
               onClick={() => onSelect(v.id)}
               aria-pressed={isSelected}
-              className="relative flex flex-col p-3 rounded-lg border text-left transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2"
+              className="relative flex flex-col p-3 rounded-lg border text-left transition-[border-color,background-color,box-shadow] duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2"
               style={
                 isSelected
                   ? {

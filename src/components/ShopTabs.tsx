@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 export const SHOP_TABS = [
-  { id: "top-brands", label: "Top Brands" },
-  { id: "nearby-stores", label: "Nearby Stores" },
-  { id: "marketplace", label: "1Fi Marketplace" },
+  { id: "top-brands", label: "Top Brands", href: "/top-brands" },
+  { id: "nearby-stores", label: "Nearby Stores", href: "/nearby-stores" },
+  { id: "marketplace", label: "1Fi Marketplace", href: "/" },
 ] as const;
 
 export type ShopTabId = (typeof SHOP_TABS)[number]["id"];
@@ -30,7 +30,7 @@ export default function ShopTabs({ active }: { active: ShopTabId }) {
           return (
             <Link
               key={tab.id}
-              href={tab.id === "marketplace" ? "/?tab=marketplace" : `/?tab=${tab.id}`}
+              href={tab.href}
               aria-current={isActive ? "page" : undefined}
               className="relative shrink-0 px-3 py-3.5 text-sm font-semibold whitespace-nowrap transition-colors sm:px-4"
               style={{ color: isActive ? "var(--accent)" : "var(--text-secondary)" }}

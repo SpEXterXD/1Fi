@@ -44,8 +44,7 @@ export default function ErrorState({
         <div className="pt-2">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-opacity hover:opacity-90"
-            style={{ background: 'var(--accent)', color: '#ffffff' }}
+            className="btn-accent inline-flex items-center gap-2 rounded-lg px-5 py-2.5 font-semibold text-sm"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Back to Shop

@@ -40,7 +40,7 @@ export default function ProductImageGallery({
           alt={`${productName} — ${variantValue}`}
           fill
           sizes="(max-width: 768px) 100vw, 450px"
-          className="object-contain transition-transform duration-300 hover:scale-[1.03]"
+          className="object-contain transition-transform duration-300 motion-safe:hover:scale-[1.03]"
           priority
           onError={() => setFailed(true)}
         />

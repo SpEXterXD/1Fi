@@ -17,7 +17,7 @@ The objective of this assignment is to evaluate the ability to understand the ex
 
 ### 1. Shop Page Navigation
 
-The Shop page (`/`) provides navigation across the three required sections via query-based tab routing (`/?tab=...`):
+The Shop experience provides navigation across the three required sections via dedicated routes (`/top-brands`, `/nearby-stores`, Marketplace at `/`):
 
 - **A. Top Brands**: Reachable placeholder view; left blank per assignment specifications (*"no implementation is required; the page can remain blank"*).
 - **B. Nearby Stores**: Reachable placeholder view; left blank per assignment specifications.
@@ -147,14 +147,17 @@ $$\text{EMI} = \frac{P \times r \times (1 + r)^n}{(1 + r)^n - 1}$$
 │   │   │   └── products/
 │   │   │       ├── route.ts             # GET /api/products
 │   │   │       └── [slug]/route.ts      # GET /api/products/[slug]
+│   │   ├── nearby-stores/page.tsx       # Nearby Stores section (intentionally blank placeholder)
 │   │   ├── products/[slug]/
 │   │   │   ├── loading.tsx              # Product detail loading skeleton
 │   │   │   └── page.tsx                 # Product detail server component + SEO metadata
+│   │   ├── top-brands/page.tsx          # Top Brands section (intentionally blank placeholder)
 │   │   ├── error.tsx                    # Global error boundary with retry CTA
 │   │   ├── globals.css                  # Design tokens, color system, and shimmer animations
 │   │   ├── layout.tsx                   # Root layout with Navbar and typography
 │   │   ├── loading.tsx                  # Shop catalog loading skeleton
-│   │   └── page.tsx                     # Shop page (Tabs: Top Brands, Nearby, Marketplace)
+│   │   ├── middleware.ts                # Redirects legacy ?tab= links to real section routes
+│   │   └── page.tsx                     # 1Fi Marketplace section (product catalog)
 │   ├── components/
 │   │   ├── EmiPlanCard.tsx              # Accessible radio card for individual EMI option
 │   │   ├── EmiPlanList.tsx              # Container and header for variant EMI plans
@@ -167,6 +170,7 @@ $$\text{EMI} = \frac{P \times r \times (1 + r)^n}{(1 + r)^n - 1}$$
 │   │   ├── ProductImageGallery.tsx      # Device image display with variant sync & fallback
 │   │   ├── ProductInfo.tsx              # Product title, brand tag, and overview description
 │   │   ├── ShopPlaceholder.tsx          # Clean placeholder for Top Brands & Nearby Stores
+│   │   ├── ShopShell.tsx                # Shared Shop chrome (section tabs + footer)
 │   │   ├── ShopTabs.tsx                 # Navigation tabs for Shop page sections
 │   │   └── VariantSelector.tsx          # Interactive storage variant selector chips
 │   └── lib/

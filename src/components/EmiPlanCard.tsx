@@ -19,18 +19,8 @@ export default function EmiPlanCard({ plan, isSelected, onSelect }: EmiPlanCardP
   const isZeroInterest = plan.interestRate === 0;
 
   return (
-    <div
-      role="radio"
-      aria-checked={isSelected}
-      tabIndex={0}
-      onClick={onSelect}
-      onKeyDown={(e) => {
-        if (e.key === ' ' || e.key === 'Enter') {
-          e.preventDefault();
-          onSelect();
-        }
-      }}
-      className="relative cursor-pointer rounded-lg border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2"
+    <label
+      className="relative flex cursor-pointer flex-col rounded-lg border transition-[border-color,background-color,box-shadow] duration-150"
       style={
         isSelected
           ? {
@@ -38,8 +28,6 @@ export default function EmiPlanCard({ plan, isSelected, onSelect }: EmiPlanCardP
               background: 'var(--accent-light)',
               // Left accent bar — the ONLY bold visual flourish, restrained everywhere else
               boxShadow: 'inset 4px 0 0 var(--accent)',
-              // @ts-expect-error custom property
-              '--tw-ring-color': 'var(--accent)',
             }
           : {
               borderColor: 'var(--border-subtle)',
@@ -47,12 +35,21 @@ export default function EmiPlanCard({ plan, isSelected, onSelect }: EmiPlanCardP
             }
       }
     >
+      {/* Native radio keeps keyboard and screen-reader behavior; the card is its label */}
+      <input
+        type="radio"
+        name="emi-plan"
+        className="sr-only"
+        checked={isSelected}
+        onChange={onSelect}
+      />
+
       <div className="flex items-center justify-between gap-3 p-4">
         {/* Left: radio + monthly amount + tenure label */}
         <div className="flex items-center gap-3">
           {/* Radio indicator — not just color, also shape change: filled circle vs empty ring */}
           <div
-            className="shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all"
+            className="shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors"
             style={
               isSelected
                 ? { borderColor: 'var(--accent)', background: 'var(--accent)' }
@@ -87,7 +84,7 @@ export default function EmiPlanCard({ plan, isSelected, onSelect }: EmiPlanCardP
               className="text-xs"
               style={{ color: 'var(--text-secondary)' }}
             >
-              for {plan.tenureMonths} months
+              for {plan.tenureMonths}&nbsp;months
             </span>
           </div>
         </div>
@@ -117,7 +114,7 @@ export default function EmiPlanCard({ plan, isSelected, onSelect }: EmiPlanCardP
             className="text-[11px]"
             style={{ color: 'var(--text-muted)' }}
           >
-            {plan.tenureMonths} EMIs
+            {plan.tenureMonths}&nbsp;EMIs
           </span>
         </div>
       </div>
@@ -138,6 +135,6 @@ export default function EmiPlanCard({ plan, isSelected, onSelect }: EmiPlanCardP
           <span style={{ color: 'var(--text-muted)' }}>credited to 1Fi wallet</span>
         </div>
       )}
-    </div>
+    </label>
   );
 }
