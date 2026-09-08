@@ -19,7 +19,7 @@ The objective of this assignment is to evaluate the ability to understand the ex
 
 The Shop experience provides navigation across the three required sections via dedicated routes (`/top-brands`, `/nearby-stores`, Marketplace at `/`):
 
-- **A. Top Brands**: Reachable placeholder view; left blank per assignment specifications (*"no implementation is required; the page can remain blank"*).
+- **A. Top Brands**: Reachable placeholder view; left blank per assignment specifications (_"no implementation is required; the page can remain blank"_).
 - **B. Nearby Stores**: Reachable placeholder view; left blank per assignment specifications.
 - **C. 1Fi Marketplace**: Fully designed and implemented end-to-end shopping experience.
 
@@ -60,20 +60,18 @@ The Marketplace allows users to browse flagship devices, inspect specifications,
 
 ## Technology Stack
 
-| Layer | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Framework** | **Next.js 16 (App Router)** | High-performance server components and API route handlers. |
-| **Language** | **TypeScript 5 (Strict)** | End-to-end type safety across API responses and UI props. |
-| **Library** | **React 19** | Modern concurrent rendering and state primitives. |
-| **Styling** | **Tailwind CSS 4 + CSS Variables** | Native design tokens, dark mode compatibility, responsive layout. |
-| **ORM and Database** | **Prisma ORM 6 + PostgreSQL** | Relational data modeling, cascading relations, and migration support. |
-| **Typography and Icons** | **Geist Sans / Mono + Lucide React** | Clean, minimalist fintech aesthetic consistent with 1Fi. |
+| Layer                    | Technology                           | Rationale                                                             |
+| :----------------------- | :----------------------------------- | :-------------------------------------------------------------------- |
+| **Framework**            | **Next.js 16 (App Router)**          | High-performance server components and API route handlers.            |
+| **Language**             | **TypeScript 5 (Strict)**            | End-to-end type safety across API responses and UI props.             |
+| **Library**              | **React 19**                         | Modern concurrent rendering and state primitives.                     |
+| **Styling**              | **Tailwind CSS 4 + CSS Variables**   | Native design tokens, dark mode compatibility, responsive layout.     |
+| **ORM and Database**     | **Prisma ORM 6 + PostgreSQL**        | Relational data modeling, cascading relations, and migration support. |
+| **Typography and Icons** | **Geist Sans / Mono + Lucide React** | Clean, minimalist fintech aesthetic consistent with 1Fi.              |
 
 ---
 
 ## Data Architecture and APIs
-
-Per the assignment guidelines, product and EMI information is not hardcoded into UI components. All data is structured relationally, stored in PostgreSQL, and fetched dynamically.
 
 ### Database Schema (`prisma/schema.prisma`)
 
@@ -123,7 +121,7 @@ EMI calculations adhere to the standard reducing-balance formula:
 
 $$\text{EMI} = \frac{P \times r \times (1 + r)^n}{(1 + r)^n - 1}$$
 
-*(where $P$ is principal selling price, $r$ is monthly interest rate, and $n$ is tenure in months; for $r = 0$, $\text{EMI} = P / n$)*.
+_(where $P$ is principal selling price, $r$ is monthly interest rate, and $n$ is tenure in months; for $r = 0$, $\text{EMI} = P / n$)_.
 
 ### REST Endpoints
 
